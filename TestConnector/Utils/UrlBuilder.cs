@@ -8,9 +8,9 @@ namespace TestConnector.Utils
 {
     internal static class UrlBuilder
     {
-        public static string Build(string urlBase, IEnumerable<string> urlParams)
+        public static string Build(string urlDomain, IEnumerable<string> urlParams)
         {
-            string res = urlBase;
+            string res = urlDomain + "?";
             foreach (var param in urlParams)
             {
                 res += $"{param}&";
