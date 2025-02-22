@@ -5,7 +5,7 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TestConnector.Rest.Fetcher
+namespace ConnectorTest.Rest.Fetcher
 {
     internal class BaseJsonFetcher<T> where T : class
     {

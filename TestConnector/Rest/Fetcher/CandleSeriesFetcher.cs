@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TestConnector.Rest.Interface;
-using TestConnector.Utils;
+using ConnectorTest.Rest.Interface;
+using ConnectorTest.Utils;
 using TestHQ;
 
-namespace TestConnector.Rest.Fetcher
+namespace ConnectorTest.Rest.Fetcher
 {
     internal class CandleSeriesFetcher : BaseJsonFetcher<IEnumerable<Candle>>, ICandleSeriesFetcher
     {

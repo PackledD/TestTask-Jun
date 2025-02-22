@@ -1,14 +1,13 @@
-﻿using ConnectorTest;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TestConnector.Rest.Fetcher;
-using TestConnector.Rest.Interface;
+using ConnectorTest.Rest.Fetcher;
+using ConnectorTest.Rest.Interface;
 using TestHQ;
 
-namespace TestConnector
+namespace ConnectorTest
 {
     public class TestConnector : ITestConnector
     {

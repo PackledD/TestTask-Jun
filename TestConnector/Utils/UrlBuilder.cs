@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TestConnector.Utils
+namespace ConnectorTest.Utils
 {
     internal static class UrlBuilder
     {
