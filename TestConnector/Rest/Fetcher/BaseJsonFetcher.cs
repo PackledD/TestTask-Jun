@@ -7,16 +7,25 @@ using System.Threading.Tasks;
 
 namespace ConnectorTest.Rest.Fetcher
 {
-    internal class BaseJsonFetcher<T> where T : class
+    internal abstract class BaseJsonFetcher<T> where T : class
     {
-        protected async Task<T?> FetchJsonAsync(string url)
+        protected async Task<IEnumerable<T>> FetchJsonCollectionAsync(string url)
         {
-            T? res = null;
+            IEnumerable<T> res = null;
             using (var client = new HttpClient())
             {
-                res = await client.GetFromJsonAsync<T>(url);
+                var resp = await client.GetAsync(url);
+                if (resp.IsSuccessStatusCode)
+                {
+                    res = ParseEntityCollection(resp.Content.ToString());
+                }
             }
             return res;
+        }
+
+        protected virtual IEnumerable<T> ParseEntityCollection(string json)
+        {
+            throw new NotImplementedException();
         }
     }
 }
