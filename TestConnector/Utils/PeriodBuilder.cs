@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ConnectorTest.Utils
+﻿namespace ConnectorTest.Utils
 {
     internal static class PeriodBuilder
     {
-        public static string? FromSec(int sec)
+        public static string FromSec(int sec)
         {
             switch (sec)
             {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using ConnectorTest.Rest.Interface;
@@ -14,13 +14,13 @@ namespace ConnectorTest.Rest.Fetcher
     {
         public async Task<IEnumerable<Candle>> GetCandleSeriesAsync(string pair, int periodInSec, DateTimeOffset? from, DateTimeOffset? to, long? count)
         {
-            string? period = PeriodBuilder.FromSec(periodInSec);
+            var period = PeriodBuilder.FromSec(periodInSec);
             if (period == null)
             {
                 throw new ArgumentException("Must take certain values", nameof(periodInSec));
             }
             string url = $"https://api-pub.bitfinex.com/v2/candles/trade:{period}:{pair}/hist";
-            List<string> urlParams = new ();
+            List<string> urlParams = new List<string>();
             if (from != null)
             {
                 urlParams.Add($"start={from}");
@@ -47,7 +47,7 @@ namespace ConnectorTest.Rest.Fetcher
 
         protected override IEnumerable<Candle> ParseEntityCollection(string json)
         {
-            List<Candle> res = new();
+            List<Candle> res = new List<Candle>();
             using (var doc = JsonDocument.Parse(json))
             {
                 foreach(var candle in doc.RootElement.EnumerateArray())

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using ConnectorTest.Rest.Interface;
@@ -15,7 +15,7 @@ namespace ConnectorTest.Rest.Fetcher
         public async Task<IEnumerable<Trade>> GetNewTradesAsync(string pair, int maxCount)
         {
             string url = $"https://api-pub.bitfinex.com/v2/trades/{pair}/hist";
-            List<string> urlParams = new() { $"limit={maxCount}" };
+            List<string> urlParams = new List<string>() { $"limit={maxCount}" };
             var res = await FetchJsonCollectionAsync(UrlBuilder.Build(url, urlParams));
             if (res == null)
             {
@@ -30,7 +30,7 @@ namespace ConnectorTest.Rest.Fetcher
 
         protected override IEnumerable<Trade> ParseEntityCollection(string json)
         {
-            List<Trade> res = new();
+            List<Trade> res = new List<Trade>();
             using (var doc = JsonDocument.Parse(json))
             {
                 foreach (var candle in doc.RootElement.EnumerateArray())
