@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ConnectorTest.Rest.Fetcher;
 using ConnectorTest.Rest.Interface;
+using ConnectorTest.Websocket.Fetcher;
 using ConnectorTest.Websocket.Interface;
 using TestHQ;
 
@@ -25,6 +26,8 @@ namespace ConnectorTest
         {
             _candlesRest = new CandleSeriesFetcher();
             _tradesRest = new NewTradesFetcher();
+            //_candleWs = new WebsocketCandle();
+            _tradeWs = new WebsocketTrade("tBTCUSD");
         }
 
         public Task<IEnumerable<Candle>> GetCandleSeriesAsync(string pair, int periodInSec, DateTimeOffset? from, DateTimeOffset? to = null, long? count = 0)
@@ -42,7 +45,7 @@ namespace ConnectorTest
             throw new NotImplementedException();
         }
 
-        public void SubscribeTrades(string pair, int maxCount = 100)
+        public void SubscribeTrades(string pair)
         {
             throw new NotImplementedException();
         }
