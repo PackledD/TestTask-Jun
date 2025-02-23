@@ -13,21 +13,51 @@ namespace ConnectorTest
 {
     public class TestConnector : ITestConnector
     {
-        public event Action<Trade> NewBuyTrade;
-        public event Action<Trade> NewSellTrade;
-        public event Action<Candle> CandleSeriesProcessing;
-
         private ICandleSeriesFetcher _candlesRest;
         private INewTradesFetcher _tradesRest;
         private IWebsocketCandle _candleWs;
         private IWebsocketTrade _tradeWs;
 
+        public event Action<Trade> NewBuyTrade
+        {
+            add
+            {
+                _tradeWs.NewBuyTrade += value;
+            }
+            remove
+            {
+                _tradeWs.NewBuyTrade -= value;
+            }
+        }
+        public event Action<Trade> NewSellTrade
+        {
+            add
+            {
+                _tradeWs.NewSellTrade += value;
+            }
+            remove
+            {
+                _tradeWs.NewSellTrade -= value;
+            }
+        }
+        public event Action<Candle> CandleSeriesProcessing
+        {
+            add
+            {
+                _candleWs.CandleSeriesProcessing += value;
+            }
+            remove
+            {
+                _candleWs.CandleSeriesProcessing -= value;
+            }
+        }
+
         public TestConnector()
         {
             _candlesRest = new CandleSeriesFetcher();
             _tradesRest = new NewTradesFetcher();
-            //_candleWs = new WebsocketCandle();
-            _tradeWs = new WebsocketTrade("tBTCUSD");
+            _candleWs = new WebsocketCandle();
+            _tradeWs = new WebsocketTrade();
         }
 
         public Task<IEnumerable<Candle>> GetCandleSeriesAsync(string pair, int periodInSec, DateTimeOffset? from, DateTimeOffset? to = null, long? count = 0)
@@ -42,22 +72,22 @@ namespace ConnectorTest
 
         public void SubscribeCandles(string pair, int periodInSec, DateTimeOffset? from = null, DateTimeOffset? to = null, long? count = 0)
         {
-            throw new NotImplementedException();
+            _candleWs.SubscribeCandles(pair, periodInSec, from, to, count);
         }
 
-        public void SubscribeTrades(string pair)
+        public void SubscribeTrades(string pair, int maxCount)
         {
-            throw new NotImplementedException();
+            _tradeWs.SubscribeTrades(pair, maxCount);
         }
 
         public void UnsubscribeCandles(string pair)
         {
-            throw new NotImplementedException();
+            _candleWs.UnsubscribeCandles(pair);
         }
 
         public void UnsubscribeTrades(string pair)
         {
-            throw new NotImplementedException();
+            _tradeWs.UnsubscribeTrades(pair);
         }
     }
 }

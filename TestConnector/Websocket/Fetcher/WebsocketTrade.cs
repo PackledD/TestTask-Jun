@@ -1,54 +1,58 @@
 ﻿using ConnectorTest.Websocket.Interface;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.Json;
 using TestHQ;
 using WebSocketSharp;
 
 namespace ConnectorTest.Websocket.Fetcher
 {
-    internal class WebsocketTrade : IWebsocketTrade, IDisposable
+    public class WebsocketTrade : IWebsocketTrade, IDisposable
     {
-        private WebSocket ws;
+        private Dictionary<string, WebSocket> sockets = new Dictionary<string, WebSocket>();
 
         public event Action<Trade> NewBuyTrade;
         public event Action<Trade> NewSellTrade;
 
-        public WebsocketTrade(string pair)
+        public void SubscribeTrades(string pair, int maxCount)
         {
-            ws = new WebSocket("wss://api-pub.bitfinex.com/ws/2");
-            ws.OnOpen += (s, e) =>
+            if (sockets.ContainsKey(pair))
             {
-                SubscribeTrades(pair);
-            };
-            ws.OnMessage += (s, e) =>
-            {
-                var data = e.Data;
-                int a = 2;
-            };
-            ws.OnClose += (s, e) =>
-            {
-                UnsubscribeTrades(pair);
-            };
-            ws.Connect();
-        }
-
-        public void Dispose()
-        {
-            if (ws != null)
-            {
-                ws.Close();
+                return;
             }
-        }
-
-        public async void SubscribeTrades(string pair)
-        {
-            string data = $"{{ \"event\": \"subscribe\", \"channel\": \"trades\", symbol: \"{pair}\"}}";
-            ws.Send(data);
+            sockets[pair] = new WebSocket("wss://api-pub.bitfinex.com/ws/2");
+            sockets[pair].Connect();
+            sockets[pair].OnMessage += (sender, e) =>
+            {
+                using (var data = JsonDocument.Parse(e.Data))
+                {
+                    if (data.RootElement.ValueKind == JsonValueKind.Array)
+                    {
+                        var value = data.RootElement.EnumerateArray();
+                        NewBuyTrade?.Invoke(new Trade { Amount = 1000, Pair = pair });
+                    }
+                }
+            };
+            string req = $"{{ \"event\": \"subscribe\", \"channel\": \"trades\", \"symbol\": \"{pair}\"}}";
+            sockets[pair].Send(req);
         }
 
         public void UnsubscribeTrades(string pair)
         {
-            string data = $"{{ \"event\": \"unsubscribe\", \"channel\": \"trades\", symbol: \"{pair}\"}}";
-            ws.Send(data);
+            if (sockets.ContainsKey(pair))
+            {
+                sockets[pair].Close();
+                sockets.Remove(pair);
+            }
+        }
+
+        public void Dispose()
+        {
+            foreach (var ws in sockets.Values)
+            {
+                ws.Close();
+            }
         }
     }
 }

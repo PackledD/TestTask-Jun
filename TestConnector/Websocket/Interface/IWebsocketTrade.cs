@@ -11,7 +11,7 @@ namespace ConnectorTest.Websocket.Interface
     {
         event Action<Trade> NewBuyTrade;
         event Action<Trade> NewSellTrade;
-        void SubscribeTrades(string pair);
+        void SubscribeTrades(string pair, int maxCount);
         void UnsubscribeTrades(string pair);
     }
 }

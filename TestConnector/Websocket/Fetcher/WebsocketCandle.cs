@@ -11,43 +11,27 @@ namespace ConnectorTest.Websocket.Fetcher
 
         public event Action<Candle> CandleSeriesProcessing;
 
-        public WebsocketCandle(string pair, int periodInSec, DateTimeOffset? from, DateTimeOffset? to, long? count)
+        public WebsocketCandle()
         {
             ws = new WebSocket("wss://api-pub.bitfinex.com/ws/2");
-            ws.OnOpen += (s, e) =>
-            {
-                SubscribeCandles(pair, periodInSec, from, to, count);
-            };
-            ws.OnMessage += (s, e) =>
-            {
-                var data = e.Data;
-                int a = 2;
-            };
-            ws.OnClose += (s, e) =>
-            {
-                UnsubscribeCandles(pair);
-            };
-            ws.Connect();
-        }
-
-        public void Dispose()
-        {
-            if (ws != null)
-            {
-                ws.Close();
-            }
         }
 
         public void SubscribeCandles(string pair, int periodInSec, DateTimeOffset? from, DateTimeOffset? to, long? count)
         {
-            string data = $"{{ \"event\": \"subscribe\", \"channel\": \"trades\", symbol: \"{pair}\"}}";
+            ws.OnMessage += (sender, e) =>
+            {
+                var d = e.Data;
+            };
+            ws.Connect();
+            string data = $"{{ \"event\": \"subscribe\", \"channel\": \"trades\", \"symbol\": \"{pair}\"}}";
             ws.Send(data);
         }
 
         public void UnsubscribeCandles(string pair)
         {
-            string data = $"{{ \"event\": \"unsubscribe\", \"channel\": \"trades\", symbol: \"{pair}\"}}";
+            string data = $"{{ \"event\": \"unsubscribe\", \"channel\": \"trades\", \"symbol\": \"{pair}\"}}";
             ws.Send(data);
+            ws.Close();
         }
     }
 }

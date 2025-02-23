@@ -21,8 +21,7 @@ namespace ConnectorTest
 
         event Action<Trade> NewBuyTrade;
         event Action<Trade> NewSellTrade;
-        // убран параметр maxCount, поскольку он не несет смысла при подписке на канал
-        void SubscribeTrades(string pair);
+        void SubscribeTrades(string pair, int maxCount = 100);
         void UnsubscribeTrades(string pair);
 
         event Action<Candle> CandleSeriesProcessing;
