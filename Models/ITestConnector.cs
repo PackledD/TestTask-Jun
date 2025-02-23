@@ -8,8 +8,9 @@ namespace ConnectorTest
     public interface ITestConnector
     {
         #region Rest
-
-        Task<IEnumerable<Trade>> GetNewTradesAsync(string pair, int maxCount);
+        
+        // maxCount = 100, значение по умолчанию, поскольку этот параметр необязателен при запросе
+        Task<IEnumerable<Trade>> GetNewTradesAsync(string pair, int maxCount = 100);
         // from = null, значение по умолчанию, поскольку этот параметр необязателен при запросе
         Task<IEnumerable<Candle>> GetCandleSeriesAsync(string pair, int periodInSec, DateTimeOffset? from = null, DateTimeOffset? to = null, long? count = 0);
 

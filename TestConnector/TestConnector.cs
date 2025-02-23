@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ConnectorTest.Rest.Fetcher;
 using ConnectorTest.Rest.Interface;
+using ConnectorTest.Websocket.Interface;
 using TestHQ;
 
 namespace ConnectorTest
@@ -17,6 +18,8 @@ namespace ConnectorTest
 
         private ICandleSeriesFetcher _candlesRest;
         private INewTradesFetcher _tradesRest;
+        private IWebsocketCandle _candleWs;
+        private IWebsocketTrade _tradeWs;
 
         public TestConnector()
         {
