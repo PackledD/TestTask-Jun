@@ -17,7 +17,7 @@ namespace ConnectorTest.Rest.Fetcher
                 var resp = await client.GetAsync(url);
                 if (resp.IsSuccessStatusCode)
                 {
-                    res = ParseEntityCollection(resp.Content.ToString());
+                    res = ParseEntityCollection(await resp.Content.ReadAsStringAsync());
                 }
             }
             return res;

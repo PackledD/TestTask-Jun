@@ -10,7 +10,8 @@ namespace ConnectorTest
         #region Rest
 
         Task<IEnumerable<Trade>> GetNewTradesAsync(string pair, int maxCount);
-        Task<IEnumerable<Candle>> GetCandleSeriesAsync(string pair, int periodInSec, DateTimeOffset? from, DateTimeOffset? to = null, long? count = 0);
+        // from = null, значение по умолчанию, поскольку этот параметр необязателен при запросе
+        Task<IEnumerable<Candle>> GetCandleSeriesAsync(string pair, int periodInSec, DateTimeOffset? from = null, DateTimeOffset? to = null, long? count = 0);
 
         #endregion
 

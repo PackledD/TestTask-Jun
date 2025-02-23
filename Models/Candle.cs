@@ -37,7 +37,8 @@ namespace TestHQ
         /// <summary>
         /// Partial (Общая сумма сделок)
         /// </summary>
-        public decimal TotalPrice { get; set; }
+        // Это значение нельзя получить через API для Candle
+        //public decimal TotalPrice { get; set; }
 
         /// <summary>
         /// Partial (Общий объем)
