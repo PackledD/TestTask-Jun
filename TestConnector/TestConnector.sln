@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConnector", "TestConnec
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "..\Models\Models.csproj", "{93B9A49F-A5B4-4F3E-B0A4-FA1E15AAC03A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CurrencyConverter", "..\CurrencyConverter\CurrencyConverter.csproj", "{4D1B01DB-1D18-448C-AD7E-286281A347DB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{93B9A49F-A5B4-4F3E-B0A4-FA1E15AAC03A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93B9A49F-A5B4-4F3E-B0A4-FA1E15AAC03A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93B9A49F-A5B4-4F3E-B0A4-FA1E15AAC03A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D1B01DB-1D18-448C-AD7E-286281A347DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D1B01DB-1D18-448C-AD7E-286281A347DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D1B01DB-1D18-448C-AD7E-286281A347DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D1B01DB-1D18-448C-AD7E-286281A347DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

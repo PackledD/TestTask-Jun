@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+    div {
+      display: flex;
+      justify-content: center;
+    }
+
+    table {
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid black;
+      padding: 10px;
+      text-align: right;
+    }
+</style>
+
+<div>
+    <table>
+        <tr>
+            <th>Валюта</th>
+            <th>Количество</th>
+        </tr>
+        @{
+            foreach(var currency in ViewBag.Balances.Keys)
+            {
+                <tr>
+                    <td>@currency</td>
+                    <td>@String.Format("{0:0.000}", Math.Round(ViewBag.Balances[currency], 3))</td>
+                </tr>
+            }
+        }
+    </table>
+</div>
