@@ -2,7 +2,9 @@
 using ConnectorTest.Websocket.Interface;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
+using TestConnector.Utils;
 using TestConnector.Websocket.Fetcher;
 using TestHQ;
 using WebSocketSharp;
@@ -24,8 +26,23 @@ namespace ConnectorTest.Websocket.Fetcher
                 {
                     if (data.RootElement.ValueKind == JsonValueKind.Array)
                     {
-                        var value = data.RootElement.EnumerateArray();
-                        CandleSeriesProcessing?.Invoke(new Candle { Pair = pair });
+                        bool hasCounter = (count != null);
+                        foreach (var cand in ParseCandles(data.RootElement))
+                        {
+                            cand.Pair = pair;
+                            if ((from == null || from < cand.OpenTime) && (to == null || cand.OpenTime < to))
+                            {
+                                CandleSeriesProcessing?.Invoke(cand);
+                            }
+                            if (hasCounter)
+                            {
+                                count--;
+                                if (count == 0)
+                                {
+                                    return;
+                                }
+                            }
+                        }
                     }
                 }
             };
@@ -35,6 +52,25 @@ namespace ConnectorTest.Websocket.Fetcher
         public void UnsubscribeCandles(string pair)
         {
             Unsubscribe(pair);
+        }
+
+        private IEnumerable<Candle> ParseCandles(JsonElement el)
+        {
+            var arr = el.EnumerateArray().ToArray();
+            if (arr[1].ValueKind == JsonValueKind.Array)
+            {
+                var prevArr = arr[1];
+                arr = prevArr.EnumerateArray().ToArray();
+                if (arr[0].ValueKind == JsonValueKind.Array)
+                {
+                    return Parser.ParseCandleEnumerable(prevArr);
+                }
+                else
+                {
+                    return new List<Candle> { Parser.ParseCandle(prevArr) };
+                }
+            }
+            return new List<Candle>();
         }
     }
 }

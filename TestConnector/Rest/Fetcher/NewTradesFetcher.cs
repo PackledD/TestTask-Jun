@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using ConnectorTest.Rest.Interface;
 using ConnectorTest.Utils;
+using TestConnector.Utils;
 using TestHQ;
 
 namespace ConnectorTest.Rest.Fetcher
@@ -30,24 +31,10 @@ namespace ConnectorTest.Rest.Fetcher
 
         protected override IEnumerable<Trade> ParseEntityCollection(string json)
         {
-            List<Trade> res = new List<Trade>();
             using (var doc = JsonDocument.Parse(json))
             {
-                foreach (var candle in doc.RootElement.EnumerateArray())
-                {
-                    var vals = candle.EnumerateArray().ToArray();
-                    var trade = new Trade
-                    {
-                        Id = vals[0].GetInt32().ToString(),
-                        Time = DateTimeOffset.FromUnixTimeMilliseconds(vals[1].GetInt64()),
-                        Amount = vals[2].GetDecimal(),
-                        Price = vals[3].GetDecimal()
-                    };
-                    trade.Side = trade.Amount > 0 ? "buy" : "sell";
-                    res.Add(trade);
-                }
+                return Parser.ParseTradeEnumerable(doc.RootElement);
             }
-            return res;
         }
     }
 }

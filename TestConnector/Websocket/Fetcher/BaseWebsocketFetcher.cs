@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using TestConnector.Utils;
 using TestHQ;
 using WebSocketSharp;
 

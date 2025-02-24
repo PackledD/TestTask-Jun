@@ -81,6 +81,7 @@
     <Compile Include="Rest\Interface\ICandleSeriesFetcher.cs" />
     <Compile Include="Rest\Interface\INewTradesFetcher.cs" />
     <Compile Include="TestConnector.cs" />
+    <Compile Include="Utils\Parser.cs" />
     <Compile Include="Utils\PeriodBuilder.cs" />
     <Compile Include="Utils\UrlBuilder.cs" />
     <Compile Include="Websocket\Fetcher\BaseWebsocketFetcher.cs" />

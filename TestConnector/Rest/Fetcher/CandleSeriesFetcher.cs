@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using ConnectorTest.Rest.Interface;
 using ConnectorTest.Utils;
+using TestConnector.Utils;
 using TestHQ;
 
 namespace ConnectorTest.Rest.Fetcher
@@ -43,24 +44,10 @@ namespace ConnectorTest.Rest.Fetcher
 
         protected override IEnumerable<Candle> ParseEntityCollection(string json)
         {
-            List<Candle> res = new List<Candle>();
             using (var doc = JsonDocument.Parse(json))
             {
-                foreach(var candle in doc.RootElement.EnumerateArray())
-                {
-                    var vals = candle.EnumerateArray().ToArray();
-                    res.Add(new Candle
-                    {
-                        OpenTime = DateTimeOffset.FromUnixTimeMilliseconds(vals[0].GetInt64()),
-                        OpenPrice = vals[1].GetInt32(),
-                        ClosePrice = vals[2].GetInt32(),
-                        HighPrice = vals[3].GetInt32(),
-                        LowPrice = vals[4].GetInt32(),
-                        TotalVolume = vals[5].GetDecimal()
-                    });
-                }
+                return Parser.ParseCandleEnumerable(doc.RootElement);
             }
-            return res;
         }
     }
 }
