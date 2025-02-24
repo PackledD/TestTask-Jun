@@ -1,4 +1,6 @@
-﻿namespace ConnectorTest.Utils
+﻿using System;
+
+namespace ConnectorTest.Utils
 {
     internal static class PeriodBuilder
     {
@@ -31,7 +33,7 @@
                 case 2419200:
                     return "1M";
                 default:
-                    return null;
+                    throw new ArgumentException("Must take certain values");
             }
         }
     }

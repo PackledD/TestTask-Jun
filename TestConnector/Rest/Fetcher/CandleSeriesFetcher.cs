@@ -15,10 +15,6 @@ namespace ConnectorTest.Rest.Fetcher
         public async Task<IEnumerable<Candle>> GetCandleSeriesAsync(string pair, int periodInSec, DateTimeOffset? from, DateTimeOffset? to, long? count)
         {
             var period = PeriodBuilder.FromSec(periodInSec);
-            if (period == null)
-            {
-                throw new ArgumentException("Must take certain values", nameof(periodInSec));
-            }
             string url = $"https://api-pub.bitfinex.com/v2/candles/trade:{period}:{pair}/hist";
             List<string> urlParams = new List<string>();
             if (from != null)

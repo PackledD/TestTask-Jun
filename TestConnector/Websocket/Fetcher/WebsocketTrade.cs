@@ -3,27 +3,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
+using TestConnector.Websocket.Fetcher;
 using TestHQ;
 using WebSocketSharp;
 
 namespace ConnectorTest.Websocket.Fetcher
 {
-    public class WebsocketTrade : IWebsocketTrade, IDisposable
+    internal class WebsocketTrade : BaseWebsocketFetcher, IWebsocketTrade, IDisposable
     {
-        private Dictionary<string, WebSocket> sockets = new Dictionary<string, WebSocket>();
-
         public event Action<Trade> NewBuyTrade;
         public event Action<Trade> NewSellTrade;
 
         public void SubscribeTrades(string pair, int maxCount)
         {
-            if (sockets.ContainsKey(pair))
-            {
-                return;
-            }
-            sockets[pair] = new WebSocket("wss://api-pub.bitfinex.com/ws/2");
-            sockets[pair].Connect();
-            sockets[pair].OnMessage += (sender, e) =>
+            string url = "wss://api-pub.bitfinex.com/ws/2";
+            string req = $"{{ \"event\": \"subscribe\", \"channel\": \"trades\", \"symbol\": \"{pair}\"}}";
+            EventHandler<MessageEventArgs> handler = (sender, e) =>
             {
                 using (var data = JsonDocument.Parse(e.Data))
                 {
@@ -34,25 +29,12 @@ namespace ConnectorTest.Websocket.Fetcher
                     }
                 }
             };
-            string req = $"{{ \"event\": \"subscribe\", \"channel\": \"trades\", \"symbol\": \"{pair}\"}}";
-            sockets[pair].Send(req);
+            Subscribe(pair, url, req, handler);
         }
 
         public void UnsubscribeTrades(string pair)
         {
-            if (sockets.ContainsKey(pair))
-            {
-                sockets[pair].Close();
-                sockets.Remove(pair);
-            }
-        }
-
-        public void Dispose()
-        {
-            foreach (var ws in sockets.Values)
-            {
-                ws.Close();
-            }
+            Unsubscribe(pair);
         }
     }
 }

@@ -83,6 +83,7 @@
     <Compile Include="TestConnector.cs" />
     <Compile Include="Utils\PeriodBuilder.cs" />
     <Compile Include="Utils\UrlBuilder.cs" />
+    <Compile Include="Websocket\Fetcher\BaseWebsocketFetcher.cs" />
     <Compile Include="Websocket\Fetcher\WebsocketCandle.cs" />
     <Compile Include="Websocket\Fetcher\WebsocketTrade.cs" />
     <Compile Include="Websocket\Interface\IWebsocketCandle.cs" />
