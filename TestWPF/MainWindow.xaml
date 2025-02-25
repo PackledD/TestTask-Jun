@@ -1,0 +1,118 @@
+﻿<Window x:Class="TestWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewmodels="clr-namespace:TestWPF.ViewModels"
+        mc:Ignorable="d"
+        Title="TestWPF Interface" Height="500" Width="1000">
+
+    <Window.DataContext>
+        <viewmodels:MainWindowViewModel/>
+    </Window.DataContext>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="2">
+            <TextBox Width="200" Text="{Binding PairNameTrades, UpdateSourceTrigger=PropertyChanged}"
+                     ToolTip="Pair"/>
+            <Button Content="Add trade sub" Command="{Binding AddTradeSubscription}" Margin="10,0,0,0"/>
+            <Button Content="Remove trade sub" Command="{Binding RemoveTradeSubscription}" Margin="10,0,0,0"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Margin="2">
+            <TextBox Width="200" Text="{Binding MaxCount, UpdateSourceTrigger=PropertyChanged}"
+                     ToolTip="MaxCount"/>
+        </StackPanel>
+        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Margin="2">
+            <TextBox Width="200" Text="{Binding PairNameCandles, UpdateSourceTrigger=PropertyChanged}"
+                     ToolTip="Pair"/>
+            <Button Content="Add candle sub" Command="{Binding AddCandleSubscription}" Margin="10,0,0,0"/>
+            <Button Content="Remove candle sub" Command="{Binding RemoveCandleSubscription}" Margin="10,0,0,0"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Margin="2">
+            <TextBox Width="200" Text="{Binding PeriodInSec, UpdateSourceTrigger=PropertyChanged}"
+                     ToolTip="Period in sec"/>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Margin="2">
+            <TextBox Width="200" Text="{Binding From, StringFormat={}{0:O}, UpdateSourceTrigger=PropertyChanged}"
+                     ToolTip="From time"/>
+        </StackPanel>
+        <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" Margin="2">
+            <TextBox Width="200" Text="{Binding To, StringFormat={}{0:O}, UpdateSourceTrigger=PropertyChanged}"
+                     ToolTip="To time"/>
+        </StackPanel>
+        <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" Margin="2">
+            <TextBox Width="200" Text="{Binding Count, UpdateSourceTrigger=PropertyChanged}"
+                     ToolTip="Count"/>
+        </StackPanel>
+
+        <Grid Grid.Row="5" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+                <TextBlock Text="Pair" Margin="35,0,0,0"/>
+                <TextBlock Text="Price" Margin="15,0,0,0"/>
+                <TextBlock Text="Amount" Margin="25,0,0,0"/>
+                <TextBlock Text="Side" Margin="10,0,0,0"/>
+                <TextBlock Text="Time" Margin="60,0,0,0"/>
+                <TextBlock Text="Id" Margin="110,0,0,0"/>
+            </StackPanel>
+            <ListBox Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Trades}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Pair}"/>
+                            <TextBlock Text="{Binding Price}" Margin="10,0,0,0"/>
+                            <TextBlock Text="{Binding Amount, StringFormat={}{0:F6}}" Margin="15,0,0,0"/>
+                            <TextBlock Text="{Binding Side}" Margin="15,0,0,0"/>
+                            <TextBlock Text="{Binding Time}" Margin="15,0,0,0"/>
+                            <TextBlock Text="{Binding Id}" Margin="15,0,0,0"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+                <TextBlock Text="Pair" Margin="35,0,0,0"/>
+                <TextBlock Text="OpenPrice" Margin="10,0,0,0"/>
+                <TextBlock Text="HighPrice" Margin="10,0,0,0"/>
+                <TextBlock Text="LowPrice" Margin="15,0,0,0"/>
+                <TextBlock Text="ClosePrice" Margin="15,0,0,0"/>
+                <TextBlock Text="TotalVolume" Margin="15,0,0,0"/>
+                <TextBlock Text="OpenTime" Margin="15,0,0,0"/>
+            </StackPanel>
+            <ListBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Candles}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Pair}"/>
+                            <TextBlock Text="{Binding OpenPrice}" Margin="30,0,0,0"/>
+                            <TextBlock Text="{Binding HighPrice}" Margin="30,0,0,0"/>
+                            <TextBlock Text="{Binding LowPrice}" Margin="30,0,0,0"/>
+                            <TextBlock Text="{Binding ClosePrice}" Margin="30,0,0,0"/>
+                            <TextBlock Text="{Binding TotalVolume, StringFormat={}{0:F6}}" Margin="40,0,0,0"/>
+                            <TextBlock Text="{Binding OpenTime}" Margin="20,0,0,0"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+    </Grid>
+</Window>
