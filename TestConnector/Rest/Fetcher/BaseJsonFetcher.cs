@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace ConnectorTest.Rest.Fetcher
 {
-    internal abstract class BaseJsonFetcher<T> where T : class
+    public abstract class BaseJsonFetcher<T> where T : class
     {
-        protected async Task<IEnumerable<T>> FetchJsonCollectionAsync(string url)
+        protected virtual async Task<IEnumerable<T>> FetchJsonCollectionAsync(string url)
         {
             IEnumerable<T> res = null;
             using (var client = new HttpClient())

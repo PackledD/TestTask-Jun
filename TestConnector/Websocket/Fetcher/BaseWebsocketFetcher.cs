@@ -11,7 +11,7 @@ using WebSocketSharp;
 
 namespace TestConnector.Websocket.Fetcher
 {
-    internal abstract class BaseWebsocketFetcher : IDisposable
+    public abstract class BaseWebsocketFetcher : IDisposable
     {
         protected Dictionary<string, WebSocket> sockets = new Dictionary<string, WebSocket>();
 

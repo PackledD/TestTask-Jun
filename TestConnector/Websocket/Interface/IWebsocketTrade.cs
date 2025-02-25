@@ -7,7 +7,7 @@ using TestHQ;
 
 namespace ConnectorTest.Websocket.Interface
 {
-    internal interface IWebsocketTrade
+    public interface IWebsocketTrade
     {
         event Action<Trade> NewBuyTrade;
         event Action<Trade> NewSellTrade;

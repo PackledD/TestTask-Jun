@@ -11,7 +11,7 @@ using WebSocketSharp;
 
 namespace ConnectorTest.Websocket.Fetcher
 {
-    internal class WebsocketTrade : BaseWebsocketFetcher, IWebsocketTrade, IDisposable
+    public class WebsocketTrade : BaseWebsocketFetcher, IWebsocketTrade, IDisposable
     {
         public event Action<Trade> NewBuyTrade;
         public event Action<Trade> NewSellTrade;
@@ -61,7 +61,11 @@ namespace ConnectorTest.Websocket.Fetcher
             {
                 var prevArr = arr[1];
                 arr = prevArr.EnumerateArray().ToArray();
-                if (arr[0].ValueKind == JsonValueKind.Array)
+                if (arr.Count() == 0)
+                {
+                    return new List<Trade>();
+                }
+                else if (arr[0].ValueKind == JsonValueKind.Array)
                 {
                     return Parser.ParseTradeEnumerable(prevArr);
                 }

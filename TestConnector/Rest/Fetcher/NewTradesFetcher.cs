@@ -11,7 +11,7 @@ using TestHQ;
 
 namespace ConnectorTest.Rest.Fetcher
 {
-    internal class NewTradesFetcher : BaseJsonFetcher<Trade>, INewTradesFetcher
+    public class NewTradesFetcher : BaseJsonFetcher<Trade>, INewTradesFetcher
     {
         public async Task<IEnumerable<Trade>> GetNewTradesAsync(string pair, int maxCount)
         {

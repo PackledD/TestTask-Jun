@@ -11,7 +11,7 @@ using WebSocketSharp;
 
 namespace ConnectorTest.Websocket.Fetcher
 {
-    internal class WebsocketCandle : BaseWebsocketFetcher, IWebsocketCandle, IDisposable
+    public class WebsocketCandle : BaseWebsocketFetcher, IWebsocketCandle, IDisposable
     {
         public event Action<Candle> CandleSeriesProcessing;
 
@@ -61,7 +61,11 @@ namespace ConnectorTest.Websocket.Fetcher
             {
                 var prevArr = arr[1];
                 arr = prevArr.EnumerateArray().ToArray();
-                if (arr[0].ValueKind == JsonValueKind.Array)
+                if (arr.Count() == 0)
+                {
+                    return new List<Candle>();
+                }
+                else if (arr[0].ValueKind == JsonValueKind.Array)
                 {
                     return Parser.ParseCandleEnumerable(prevArr);
                 }

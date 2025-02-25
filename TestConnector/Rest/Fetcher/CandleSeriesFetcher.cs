@@ -11,7 +11,7 @@ using TestHQ;
 
 namespace ConnectorTest.Rest.Fetcher
 {
-    internal class CandleSeriesFetcher : BaseJsonFetcher<Candle>, ICandleSeriesFetcher
+    public class CandleSeriesFetcher : BaseJsonFetcher<Candle>, ICandleSeriesFetcher
     {
         public async Task<IEnumerable<Candle>> GetCandleSeriesAsync(string pair, int periodInSec, DateTimeOffset? from, DateTimeOffset? to, long? count)
         {

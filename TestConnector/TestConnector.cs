@@ -60,6 +60,14 @@ namespace ConnectorTest
             _tradeWs = new WebsocketTrade();
         }
 
+        public TestConnector(ICandleSeriesFetcher candlesRest, INewTradesFetcher tradesRest, IWebsocketCandle candleWs, IWebsocketTrade tradeWs)
+        {
+            _candlesRest = candlesRest;
+            _tradesRest = tradesRest;
+            _candleWs = candleWs;
+            _tradeWs = tradeWs;
+        }
+
         public Task<IEnumerable<Candle>> GetCandleSeriesAsync(string pair, int periodInSec, DateTimeOffset? from, DateTimeOffset? to = null, long? count = 0)
         {
             return _candlesRest.GetCandleSeriesAsync(pair, periodInSec, from, to, count);

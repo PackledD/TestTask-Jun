@@ -4,7 +4,7 @@ using TestHQ;
 
 namespace ConnectorTest.Rest.Interface
 {
-    internal interface INewTradesFetcher
+    public interface INewTradesFetcher
     {
         Task<IEnumerable<Trade>> GetNewTradesAsync(string pair, int maxCount);
     }

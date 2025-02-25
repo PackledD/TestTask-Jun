@@ -7,7 +7,7 @@ using TestHQ;
 
 namespace ConnectorTest.Websocket.Interface
 {
-    internal interface IWebsocketCandle
+    public interface IWebsocketCandle
     {
         event Action<Candle> CandleSeriesProcessing;
         void SubscribeCandles(string pair, int periodInSec, DateTimeOffset? from, DateTimeOffset? to, long? count);
